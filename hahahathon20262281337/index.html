@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Длинный день на маяке</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<base target="_blank">
+</head>
+<body class="crt">
+<div id="app">
+
+<!-- ==================== ТИТУЛ ==================== -->
+<div class="screen active" id="scr-title">
+  <div class="title-bg">
+    <div class="title-stars"></div>
+    <div class="title-moon"></div>
+
+    <!-- ОГРОМНЫЙ МАЯК КРУПНЫМ ПЛАНОМ: видно только основание -->
+    <div class="title-lighthouse" aria-hidden="true">
+      <svg viewBox="0 0 200 320" shape-rendering="crispEdges" preserveAspectRatio="xMidYMax meet">
+        <!-- скала -->
+        <rect x="0" y="292" width="200" height="28" fill="#1D2B53"/>
+        <rect x="10" y="284" width="180" height="10" fill="#5F574F"/>
+        <rect x="24" y="276" width="152" height="10" fill="#83769C"/>
+        <!-- башня: ступенчатый пиксельный силуэт -->
+        <rect x="52" y="276" width="96" height="22" fill="#FFF1E8"/>
+        <rect x="56" y="254" width="88" height="22" fill="#FF004D"/>
+        <rect x="60" y="232" width="80" height="22" fill="#FFF1E8"/>
+        <rect x="64" y="210" width="72" height="22" fill="#FF004D"/>
+        <rect x="68" y="188" width="64" height="22" fill="#FFF1E8"/>
+        <rect x="72" y="166" width="56" height="22" fill="#FF004D"/>
+        <rect x="76" y="144" width="48" height="22" fill="#FFF1E8"/>
+        <rect x="80" y="122" width="40" height="22" fill="#FF004D"/>
+        <rect x="84" y="100" width="32" height="22" fill="#FFF1E8"/>
+        <!-- галерея и фонарь (уходят за верхний край экрана) -->
+        <rect x="76" y="88" width="48" height="12" fill="#000000"/>
+        <rect x="84" y="58" width="32" height="30" fill="#000000"/>
+        <rect x="90" y="64" width="20" height="18" fill="#FFEC27"/>
+        <rect x="80" y="46" width="40" height="12" fill="#FF004D"/>
+        <rect x="94" y="34" width="12" height="12" fill="#000000"/>
+        <!-- дверь и окно в основании -->
+        <rect x="88" y="238" width="24" height="38" fill="#000000"/>
+        <rect x="92" y="242" width="16" height="30" fill="#AB5236"/>
+        <rect x="102" y="256" width="4" height="4" fill="#FFEC27"/>
+        <rect x="94" y="196" width="12" height="14" fill="#000000"/>
+        <rect x="97" y="199" width="6" height="8" fill="#29ADFF"/>
+        <!-- блики-пиксели -->
+        <rect x="60" y="258" width="6" height="14" fill="#FF77A8"/>
+        <rect x="66" y="214" width="6" height="14" fill="#FFCCAA"/>
+        <rect x="70" y="170" width="6" height="14" fill="#FF77A8"/>
+      </svg>
+    </div>
+
+    <div class="title-sea" aria-hidden="true">
+      <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path class="wave1" d="M0,55 Q75,35 150,55 T300,55 T450,55 T600,55 T750,55 T900,55 T1050,55 T1200,55 L1200,120 L0,120 Z" fill="#29ADFF"/>
+        <path class="wave2" d="M0,82 Q75,66 150,82 T300,82 T450,82 T600,82 T750,82 T900,82 T1050,82 T1200,82 L1200,120 L0,120 Z" fill="#1D2B53"/>
+      </svg>
+    </div>
+
+    <div class="title-overlay">
+      <div class="title-kicker">ИГРА ПРО ЧЕСТНЫЙ ПРОГНОЗ</div>
+      <h1 class="title-huge">МАЯК</h1>
+      <div class="title-sub">семь рассветов &middot; один шторм &middot; одно твоё слово</div>
+      <div class="title-btns">
+        <button class="btn ghost title-btn-left" id="btn-leaderboard">Рекорды</button>
+        <button class="btn title-btn-main" id="btn-start">Начать смену</button>
+        <button class="btn ghost title-btn-right" id="btn-continue" style="display:none;">Продолжить</button>
+      </div>
+      <div class="title-hint">Сначала выбери сложность &mdash; рекорды уже ждут на следующем экране</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== ВЫБОР СЛОЖНОСТИ ==================== -->
+<div class="screen" id="scr-diff">
+  <div class="title-bg diff-bg">
+    <div class="title-stars"></div>
+    <div class="title-moon"></div>
+    <div class="title-lighthouse" aria-hidden="true">
+      <svg viewBox="0 0 200 320" shape-rendering="crispEdges" preserveAspectRatio="xMidYMax meet">
+        <!-- скала -->
+        <rect x="0" y="292" width="200" height="28" fill="#1D2B53"/>
+        <rect x="10" y="284" width="180" height="10" fill="#5F574F"/>
+        <rect x="24" y="276" width="152" height="10" fill="#83769C"/>
+        <!-- башня: ступенчатый пиксельный силуэт -->
+        <rect x="52" y="276" width="96" height="22" fill="#FFF1E8"/>
+        <rect x="56" y="254" width="88" height="22" fill="#FF004D"/>
+        <rect x="60" y="232" width="80" height="22" fill="#FFF1E8"/>
+        <rect x="64" y="210" width="72" height="22" fill="#FF004D"/>
+        <rect x="68" y="188" width="64" height="22" fill="#FFF1E8"/>
+        <rect x="72" y="166" width="56" height="22" fill="#FF004D"/>
+        <rect x="76" y="144" width="48" height="22" fill="#FFF1E8"/>
+        <rect x="80" y="122" width="40" height="22" fill="#FF004D"/>
+        <rect x="84" y="100" width="32" height="22" fill="#FFF1E8"/>
+        <!-- галерея и фонарь (уходят за верхний край экрана) -->
+        <rect x="76" y="88" width="48" height="12" fill="#000000"/>
+        <rect x="84" y="58" width="32" height="30" fill="#000000"/>
+        <rect x="90" y="64" width="20" height="18" fill="#FFEC27"/>
+        <rect x="80" y="46" width="40" height="12" fill="#FF004D"/>
+        <rect x="94" y="34" width="12" height="12" fill="#000000"/>
+        <!-- дверь и окно в основании -->
+        <rect x="88" y="238" width="24" height="38" fill="#000000"/>
+        <rect x="92" y="242" width="16" height="30" fill="#AB5236"/>
+        <rect x="102" y="256" width="4" height="4" fill="#FFEC27"/>
+        <rect x="94" y="196" width="12" height="14" fill="#000000"/>
+        <rect x="97" y="199" width="6" height="8" fill="#29ADFF"/>
+        <!-- блики-пиксели -->
+        <rect x="60" y="258" width="6" height="14" fill="#FF77A8"/>
+        <rect x="66" y="214" width="6" height="14" fill="#FFCCAA"/>
+        <rect x="70" y="170" width="6" height="14" fill="#FF77A8"/>
+      </svg>
+    </div>
+    <div class="title-sea" aria-hidden="true">
+      <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path class="wave1" d="M0,55 Q75,35 150,55 T300,55 T450,55 T600,55 T750,55 T900,55 T1050,55 T1200,55 L1200,120 L0,120 Z" fill="#29ADFF"/>
+        <path class="wave2" d="M0,82 Q75,66 150,82 T300,82 T450,82 T600,82 T750,82 T900,82 T1050,82 T1200,82 L1200,120 L0,120 Z" fill="#1D2B53"/>
+      </svg>
+    </div>
+    <div class="diff-overlay">
+      <div class="title-kicker">СЕМЬ ДНЕЙ НА МАЯКЕ</div>
+      <h1 class="diff-huge">НАЧАТЬ ИГРУ</h1>
+      <div class="diff-panel">
+        <input type="text" class="inp" id="inp-name" maxlength="18" placeholder="Никнейм (необязательно)">
+        <div class="diff-label">Уровень сложности</div>
+        <div class="chiprow" id="diff-chips"></div>
+        <div class="diff-desc" id="diff-desc"></div>
+        <div class="diff-label">Режим игры</div>
+        <div class="chiprow" id="mode-chips">
+          <div class="chip sel" data-m="campaign">Кампания · 7 дней</div>
+          <div class="chip" data-m="survival">Выживание · бесконечно</div>
+        </div>
+        <div class="diff-desc" id="mode-desc"></div>
+        <div class="diff-btns">
+          <button class="btn ghost diff-back" id="btn-diff-back">&larr; Назад</button>
+          <button class="btn diff-start" id="btn-diff-start">Начать смену</button>
+        </div>
+      </div>
+      <div id="records-slot" class="records-main diff-records"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== РЕКОРДЫ ==================== -->
+<div class="screen" id="scr-records">
+  <div class="title-bg records-bg">
+    <div class="title-stars"></div>
+    <div class="title-moon"></div>
+    <div class="title-lighthouse" aria-hidden="true">
+      <svg viewBox="0 0 200 320" shape-rendering="crispEdges" preserveAspectRatio="xMidYMax meet">
+        <!-- скала -->
+        <rect x="0" y="292" width="200" height="28" fill="#1D2B53"/>
+        <rect x="10" y="284" width="180" height="10" fill="#5F574F"/>
+        <rect x="24" y="276" width="152" height="10" fill="#83769C"/>
+        <!-- башня: ступенчатый пиксельный силуэт -->
+        <rect x="52" y="276" width="96" height="22" fill="#FFF1E8"/>
+        <rect x="56" y="254" width="88" height="22" fill="#FF004D"/>
+        <rect x="60" y="232" width="80" height="22" fill="#FFF1E8"/>
+        <rect x="64" y="210" width="72" height="22" fill="#FF004D"/>
+        <rect x="68" y="188" width="64" height="22" fill="#FFF1E8"/>
+        <rect x="72" y="166" width="56" height="22" fill="#FF004D"/>
+        <rect x="76" y="144" width="48" height="22" fill="#FFF1E8"/>
+        <rect x="80" y="122" width="40" height="22" fill="#FF004D"/>
+        <rect x="84" y="100" width="32" height="22" fill="#FFF1E8"/>
+        <!-- галерея и фонарь (уходят за верхний край экрана) -->
+        <rect x="76" y="88" width="48" height="12" fill="#000000"/>
+        <rect x="84" y="58" width="32" height="30" fill="#000000"/>
+        <rect x="90" y="64" width="20" height="18" fill="#FFEC27"/>
+        <rect x="80" y="46" width="40" height="12" fill="#FF004D"/>
+        <rect x="94" y="34" width="12" height="12" fill="#000000"/>
+        <!-- дверь и окно в основании -->
+        <rect x="88" y="238" width="24" height="38" fill="#000000"/>
+        <rect x="92" y="242" width="16" height="30" fill="#AB5236"/>
+        <rect x="102" y="256" width="4" height="4" fill="#FFEC27"/>
+        <rect x="94" y="196" width="12" height="14" fill="#000000"/>
+        <rect x="97" y="199" width="6" height="8" fill="#29ADFF"/>
+        <!-- блики-пиксели -->
+        <rect x="60" y="258" width="6" height="14" fill="#FF77A8"/>
+        <rect x="66" y="214" width="6" height="14" fill="#FFCCAA"/>
+        <rect x="70" y="170" width="6" height="14" fill="#FF77A8"/>
+      </svg>
+    </div>
+    <div class="title-sea" aria-hidden="true">
+      <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path class="wave1" d="M0,55 Q75,35 150,55 T300,55 T450,55 T600,55 T750,55 T900,55 T1050,55 T1200,55 L1200,120 L0,120 Z" fill="#29ADFF"/>
+        <path class="wave2" d="M0,82 Q75,66 150,82 T300,82 T450,82 T600,82 T750,82 T900,82 T1050,82 T1200,82 L1200,120 L0,120 Z" fill="#1D2B53"/>
+      </svg>
+    </div>
+    <div class="records-overlay">
+      <div class="title-kicker">ТАБЛИЦА ЛУЧШИХ СМЕН</div>
+      <h1 class="records-huge">РЕКОРДЫ</h1>
+      <div id="records-main" class="records-main"></div>
+      <div id="records-online" class="records-main"></div>
+      <div id="achievements-main" class="ach-main"></div>
+      <button class="btn ghost records-back" id="btn-records-back">&larr; В главное меню</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== ИНТРО ==================== -->
+<div class="screen" id="scr-intro">
+  <div class="skybg">
+    <div class="sky sk-clear"><div class="sunmoon"></div>
+      <div class="cloud" style="top:12%; width:120px; animation-duration:75s;"></div>
+      <div class="cloud" style="top:26%; width:80px; animation-duration:95s; animation-delay:-30s; opacity:.6;"></div>
+    </div>
+    <div class="sea"><svg viewBox="0 0 1200 160" preserveAspectRatio="none">
+      <path class="wave1" d="M0,80 Q75,62 150,80 T300,80 T450,80 T600,80 T750,80 T900,80 T1050,80 T1200,80 L1200,160 L0,160 Z" fill="#29ADFF"/>
+      <path class="wave2" d="M0,110 Q75,95 150,110 T300,110 T450,110 T600,110 T750,110 T900,110 T1050,110 T1200,110 L1200,160 L0,160 Z" fill="#1D2B53"/>
+    </svg></div>
+    <div class="lighthouse">
+      <svg viewBox="0 0 160 300">
+        <ellipse cx="80" cy="292" rx="66" ry="14" fill="#2a4a5e"/>
+        <path d="M58,290 L66,120 L94,120 L102,290 Z" fill="#f4efe4"/>
+        <path d="M62,240 L98,240 L99,220 L61,220 Z" fill="#b3541e"/>
+        <path d="M66,150 L94,150 L95,134 L65,134 Z" fill="#b3541e"/>
+        <rect x="60" y="100" width="40" height="12" rx="3" fill="#2f2a24"/>
+        <rect x="66" y="78" width="28" height="24" fill="#2f2a24"/>
+        <circle cx="80" cy="90" r="9" fill="#ffe9a0"/>
+        <path d="M62,78 L80,58 L98,78 Z" fill="#b3541e"/>
+      </svg>
+    </div>
+    <div class="overlay-center">
+      <div class="glass result-card intro-card">
+        <div class="intro-flex">
+          <div class="grandpa">
+            <svg viewBox="0 0 96 128" shape-rendering="crispEdges" aria-label="Матвей Сергеевич">
+          <rect x="22" y="6" width="52" height="12" fill="#1D2B53"/>
+          <rect x="16" y="18" width="64" height="6" fill="#000000"/>
+          <rect x="40" y="0" width="16" height="6" fill="#FF004D"/>
+          <rect x="28" y="24" width="40" height="34" fill="#FFCCAA"/>
+          <rect x="22" y="24" width="6" height="26" fill="#FFF1E8"/>
+          <rect x="68" y="24" width="6" height="26" fill="#FFF1E8"/>
+          <rect x="22" y="38" width="6" height="10" fill="#FFCCAA"/>
+          <rect x="68" y="38" width="6" height="10" fill="#FFCCAA"/>
+          <rect x="33" y="33" width="12" height="4" fill="#FFF1E8"/>
+          <rect x="51" y="33" width="12" height="4" fill="#FFF1E8"/>
+          <rect x="35" y="40" width="6" height="6" fill="#000000"/>
+          <rect x="55" y="40" width="6" height="6" fill="#000000"/>
+          <rect x="32" y="37" width="14" height="12" fill="none" stroke="#000000" stroke-width="2"/>
+          <rect x="50" y="37" width="14" height="12" fill="none" stroke="#000000" stroke-width="2"/>
+          <rect x="46" y="41" width="4" height="3" fill="#000000"/>
+          <rect x="45" y="46" width="6" height="9" fill="#AB5236"/>
+          <rect x="28" y="52" width="40" height="10" fill="#FFF1E8"/>
+          <rect x="32" y="62" width="32" height="12" fill="#FFF1E8"/>
+          <rect x="38" y="74" width="20" height="8" fill="#C2C3C7"/>
+          <rect x="36" y="53" width="24" height="5" fill="#C2C3C7"/>
+          <rect x="42" y="60" width="12" height="4" fill="#FF77A8"/>
+          <rect x="18" y="82" width="60" height="46" fill="#5F574F"/>
+          <rect x="18" y="82" width="10" height="46" fill="#000000" opacity=".25"/>
+          <rect x="68" y="82" width="10" height="46" fill="#000000" opacity=".25"/>
+          <rect x="34" y="76" width="28" height="12" fill="#FFA300"/>
+          <rect x="44" y="88" width="8" height="40" fill="#FFF1E8"/>
+          <rect x="46" y="96" width="4" height="4" fill="#000000"/>
+          <rect x="46" y="106" width="4" height="4" fill="#000000"/>
+          <rect x="46" y="116" width="4" height="4" fill="#000000"/>
+        </svg>
+            <div class="grandpa-name">Матвей Сергеевич<span>смотритель маяка, 40 лет на смене</span></div>
+          </div>
+          <div class="intro-text">
+            <div class="title-kicker">МАТВЕЙ ГОВОРИТ</div>
+            <h2>Передача смены</h2>
+            <p>Матвей Сергеевич наблюдал за этим небом сорок лет. Сегодня он уехал в больницу — «на две недели, не больше» — оставив вам ключи от дежурки, барограф и потрёпанную тетрадь.</p>
+          <p>На обложке карандашом выведено: <i>«Прогноз — не гадание. Скажи людям честно, сколько у тебя уверенности, — и они простят ошибку. Соври — не простят никогда».</i></p>
+          <p>За неделю вы решите, кому верить вашему слову: рыбакам, дрону-почтальону, фермерам. Смотрите на приборы. И помните: данные бывают неполными.</p>
+            <div class="intro-btn"><button class="btn" id="btn-intro-go">К первому рассвету &rarr;</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== ИГРА ==================== -->
+<div class="screen" id="scr-game">
+  <div class="gamewrap">
+    <div class="hud">
+      <div class="who">
+        <div class="avatar" id="avatar">М</div>
+        <div class="hud-who-text"><div class="hud-name" id="hud-name">Стажёр</div><div class="glass-dark day-pill" id="day-badge">День 1 / 7</div></div>
+      </div>
+      <div class="days-track" id="days-track"></div>
+      <div class="gauge-wrap">
+        <div class="gauge-label">доверие<br>города <b id="trust-num">50</b></div>
+        <div class="gauge" id="gauge"><div class="gauge-hole" id="gauge-hole">50</div></div>
+        <div class="res-pill" id="fuel-pill">ТОПЛИВО <b id="fuel-num">60</b></div>
+        <div class="res-pill coin-pill">КОИНЫ <b id="coin-num">40</b></div>
+        <button class="hud-btn" id="btn-tut" title="Обучение">[?]</button>
+        <button class="hud-btn hud-exit" id="btn-menu-exit" title="Выйти в главное меню" aria-label="Выйти в главное меню"><span class="exit-bar"></span><span class="exit-bar"></span></button>
+      </div>
+    </div>
+
+    <div class="stage interior" id="stage">
+            <div class="wall-decor wall-left">
+        <div class="wall-frame" id="wall-photo" title="Старое фото маяка">
+          <svg viewBox="0 0 90 64" shape-rendering="crispEdges">
+            <rect width="90" height="64" fill="#29ADFF"/>
+            <rect y="40" width="90" height="24" fill="#1D2B53"/>
+            <rect x="40" y="14" width="10" height="30" fill="#FFF1E8"/><rect x="40" y="24" width="10" height="7" fill="#FF004D"/>
+            <rect x="36" y="8" width="18" height="7" fill="#000000"/><rect x="42" y="10" width="6" height="4" fill="#FFEC27"/>
+            <rect x="6" y="6" width="12" height="8" fill="#FFEC27"/>
+          </svg>
+          <span>МАЯК, 1987</span>
+        </div>
+        <div class="wall-calendar"><b>ИЮЛЬ</b><i>смена Матвея</i></div>
+        <svg class="wall-clock" viewBox="0 0 60 60" shape-rendering="crispEdges"><circle cx="30" cy="30" r="26" fill="#FFF1E8" stroke="#000" stroke-width="5"/><line x1="30" y1="30" x2="30" y2="14" stroke="#000" stroke-width="4"/><line x1="30" y1="30" x2="42" y2="36" stroke="#FF004D" stroke-width="4"/><rect x="27" y="27" width="6" height="6" fill="#000"/></svg>
+        <div class="wall-shelf"><span class="shelf-book b1"></span><span class="shelf-book b2"></span><span class="shelf-jar"></span><span class="shelf-book b3"></span></div>
+      </div>
+      <div class="wall-decor wall-right">
+        <div class="wall-map" id="wall-map" title="Карта бухты">
+          <svg viewBox="0 0 100 72" shape-rendering="crispEdges">
+            <rect width="100" height="72" fill="#FFCCAA"/>
+            <path d="M0,50 L28,42 L44,52 L70,38 L100,44 L100,72 L0,72 Z" fill="#29ADFF"/>
+            <path d="M12,58 L36,30 L58,34 L82,16" fill="none" stroke="#FF004D" stroke-width="3" stroke-dasharray="6 5"/>
+            <rect x="78" y="12" width="8" height="8" fill="#FF004D"/>
+            <rect x="8" y="54" width="7" height="7" fill="#000000"/>
+          </svg>
+          <span>БУХТА И ОСТРОВ ГУЛКИЙ</span>
+        </div>
+        <svg class="wall-anchor" viewBox="0 0 60 84" shape-rendering="crispEdges">
+          <line x1="30" y1="0" x2="30" y2="16" stroke="#FFEC27" stroke-width="4"/>
+          <circle cx="30" cy="22" r="7" fill="none" stroke="#C2C3C7" stroke-width="5"/>
+          <rect x="26" y="28" width="8" height="38" fill="#C2C3C7"/>
+          <rect x="12" y="36" width="36" height="7" fill="#C2C3C7"/>
+          <path d="M10,52 L10,66 L22,66 M50,52 L50,66 L38,66" fill="none" stroke="#C2C3C7" stroke-width="7"/>
+        </svg>
+      </div>
+
+      <div class="room-lamp"><span class="lamp-cord"></span><span class="lamp-shade"></span><span class="lamp-glow"></span></div>
+      <div class="window-frame">
+        <div class="window-view">
+          <div class="sky sk-clear" id="sky">
+            <div class="stars"></div><div class="sunmoon"></div><div class="beam"></div><div class="rain"></div><div class="bolt"></div>
+            <div class="cloud" id="cl1" style="top:10%; width:120px; animation-duration:80s;"></div>
+            <div class="cloud" id="cl2" style="top:24%; width:90px; animation-duration:100s; animation-delay:-40s;"></div>
+            <div class="cloud" id="cl3" style="top:40%; width:64px; animation-duration:120s; animation-delay:-70s; opacity:.5;"></div>
+          </div>
+          <svg class="rock rock-left" viewBox="0 0 120 90" shape-rendering="crispEdges" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0,90 L0,55 L14,50 L22,38 L38,34 L48,22 L66,26 L78,36 L92,42 L104,54 L120,60 L120,90 Z" fill="#1D2B53"/>
+          <path d="M0,90 L0,70 L20,64 L36,52 L58,54 L82,64 L120,74 L120,90 Z" fill="#000000"/>
+          <rect x="30" y="40" width="10" height="6" fill="#83769C"/>
+          <rect x="52" y="30" width="8" height="5" fill="#5F574F"/>
+        </svg>
+          <svg class="rock rock-right" viewBox="0 0 120 90" shape-rendering="crispEdges" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0,62 L16,52 L30,40 L48,34 L62,20 L80,24 L94,36 L104,40 L112,52 L120,56 L120,90 L0,90 Z" fill="#1D2B53"/>
+          <path d="M0,76 L34,64 L62,56 L92,66 L120,72 L120,90 L0,90 Z" fill="#000000"/>
+          <rect x="66" y="30" width="10" height="6" fill="#83769C"/>
+          <rect x="42" y="44" width="8" height="5" fill="#5F574F"/>
+        </svg>
+          <div class="sea window-sea">
+            <svg viewBox="0 0 1200 160" preserveAspectRatio="none">
+              <path class="wave1" d="M0,80 Q75,62 150,80 T300,80 T450,80 T600,80 T750,80 T900,80 T1050,80 T1200,80 L1200,160 L0,160 Z" fill="#29ADFF"/>
+              <path class="wave2" d="M0,110 Q75,95 150,110 T300,110 T450,110 T600,110 T750,110 T900,110 T1050,110 T1200,110 L1200,160 L0,160 Z" fill="#1D2B53"/>
+            </svg>
+          </div>
+          <svg class="view-details" viewBox="0 0 1200 600" preserveAspectRatio="none" shape-rendering="crispEdges" aria-hidden="true">
+            <path d="M40,392 L180,368 L330,378 L430,392 L430,410 L40,410 Z" fill="#14263a"/>
+            <rect x="238" y="316" width="26" height="54" fill="#FFF1E8"/>
+            <rect x="238" y="336" width="26" height="12" fill="#FF004D"/>
+            <rect x="232" y="306" width="38" height="10" fill="#000000"/>
+            <rect x="242" y="288" width="18" height="18" fill="#FFEC27"/>
+            <rect x="236" y="280" width="30" height="8" fill="#FF004D"/>
+            <path d="M620,452 L716,452 L696,478 L640,478 Z" fill="#5F574F"/>
+            <rect x="664" y="398" width="6" height="54" fill="#000000"/>
+            <path d="M670,402 L706,448 L670,448 Z" fill="#FFF1E8"/>
+            <path d="M664,410 L638,448 L664,448 Z" fill="#FFCCAA"/>
+            <rect x="618" y="444" width="100" height="6" fill="#000000"/>
+            <path d="M360,120 l14,-10 l14,10 l-14,-4 Z M420,88 l12,-9 l12,9 l-12,-3 Z M880,104 l14,-10 l14,10 l-14,-4 Z M940,140 l11,-8 l11,8 l-11,-3 Z" fill="#000000"/>
+            <g fill="#FFF1E8"><rect x="30" y="512" width="52" height="7"/><rect x="70" y="528" width="38" height="6"/><rect x="18" y="544" width="64" height="7"/><rect x="1096" y="516" width="56" height="7"/><rect x="1064" y="534" width="42" height="6"/><rect x="1118" y="548" width="52" height="7"/></g>
+            <g fill="#FFEC27" opacity=".65"><rect x="520" y="486" width="26" height="4"/><rect x="566" y="500" width="18" height="4"/><rect x="486" y="508" width="22" height="4"/><rect x="760" y="492" width="24" height="4"/></g>
+          </svg>
+          <g opacity=".55"><path d="M0,378 L140,330 L260,362 L390,322 L520,366 L640,338 L800,372 L960,330 L1200,368 L1200,398 L0,398 Z" fill="#7E2553"/></g>
+          <g><rect x="986" y="356" width="34" height="30" fill="#1D2B53"/><rect x="1028" y="346" width="28" height="40" fill="#1D2B53"/><rect x="1064" y="360" width="38" height="26" fill="#1D2B53"/><g fill="#FFEC27"><rect x="994" y="364" width="6" height="6"/><rect x="1006" y="374" width="6" height="6"/><rect x="1038" y="356" width="6" height="6"/><rect x="1074" y="368" width="6" height="6"/><rect x="1088" y="368" width="6" height="6"/></g></g>
+          <g fill="#FFEC27" opacity=".7"><rect x="838" y="428" width="34" height="4"/><rect x="826" y="448" width="58" height="4"/><rect x="842" y="470" width="30" height="4"/><rect x="818" y="492" width="66" height="4"/></g>
+          <g fill="#FFF1E8" opacity=".8"><rect x="120" y="470" width="42" height="4"/><rect x="300" y="492" width="36" height="4"/><rect x="520" y="462" width="44" height="4"/><rect x="700" y="512" width="38" height="4"/><rect x="980" y="478" width="46" height="4"/></g>
+                    <div class="window-glass"></div>
+          <div class="curtain curtain-left"></div><div class="curtain curtain-right"></div>
+          <div class="window-fog"></div><div class="measure-pop clouds-pop"></div>
+          <div class="window-bar-v"></div>
+          <div class="window-bar-h"></div>
+        </div>
+        <div class="window-sill"></div>
+      </div>
+      <div class="desk" aria-hidden="true">
+        <svg class="desk-props" viewBox="0 0 220 70" shape-rendering="crispEdges">
+          <rect x="8" y="34" width="26" height="24" fill="#FF004D"/>
+          <rect x="12" y="28" width="18" height="8" fill="#FFF1E8"/>
+          <rect x="34" y="40" width="8" height="10" fill="#FFF1E8"/>
+          <rect x="176" y="10" width="8" height="34" fill="#000000"/>
+          <rect x="164" y="44" width="32" height="8" fill="#000000"/>
+          <rect x="168" y="0" width="24" height="12" fill="#FFA300"/>
+          <rect x="174" y="12" width="12" height="8" fill="#FFEC27"/>
+          <rect x="92" y="48" width="40" height="10" fill="#FFF1E8"/>
+          <rect x="98" y="42" width="28" height="8" fill="#FF77A8"/>
+        </svg>
+      </div>
+
+      
+                  <div class="desk-radio" id="desk-radio" title="Рация города">
+        <svg viewBox="0 0 120 96" shape-rendering="crispEdges">
+          <line x1="92" y1="38" x2="116" y2="4" stroke="#000000" stroke-width="4"/>
+          <circle cx="117" cy="4" r="4" fill="#FFEC27"/>
+          <rect x="34" y="18" width="44" height="10" fill="#000000"/>
+          <rect x="42" y="12" width="28" height="8" fill="#5F574F" stroke="#000000" stroke-width="3"/>
+          <rect x="8" y="34" width="96" height="56" fill="#1D2B53" stroke="#000000" stroke-width="5"/>
+          <g fill="#C2C3C7"><rect x="15" y="43" width="6" height="6"/><rect x="24" y="43" width="6" height="6"/><rect x="33" y="43" width="6" height="6"/><rect x="15" y="52" width="6" height="6"/><rect x="24" y="52" width="6" height="6"/><rect x="33" y="52" width="6" height="6"/><rect x="15" y="61" width="6" height="6"/><rect x="24" y="61" width="6" height="6"/><rect x="33" y="61" width="6" height="6"/><rect x="15" y="70" width="6" height="6"/><rect x="24" y="70" width="6" height="6"/><rect x="33" y="70" width="6" height="6"/></g>
+          <rect x="48" y="42" width="48" height="18" fill="#03140a" stroke="#000000" stroke-width="3"/>
+          <g fill="#00E436"><rect x="52" y="55" width="5" height="4"/><rect x="59" y="52" width="5" height="7"/><rect x="66" y="49" width="5" height="10"/><rect x="73" y="53" width="5" height="6"/><rect x="80" y="47" width="5" height="12"/></g>
+          <g fill="#FFEC27"><rect x="52" y="44" width="4" height="3"/><rect x="62" y="44" width="4" height="3"/><rect x="72" y="44" width="4" height="3"/><rect x="82" y="44" width="4" height="3"/></g>
+          <circle cx="58" cy="76" r="9" fill="#5F574F" stroke="#000000" stroke-width="3"/><circle cx="58" cy="76" r="3" fill="#FFEC27"/>
+          <circle cx="80" cy="76" r="9" fill="#5F574F" stroke="#000000" stroke-width="3"/><circle cx="80" cy="76" r="3" fill="#FF004D"/>
+          <rect x="88" y="40" width="7" height="7" fill="#00E436"/>
+          <rect x="12" y="84" width="88" height="5" fill="#FFA300"/>
+        </svg>
+              </div>
+
+      <button class="submit-under-radio" id="btn-submit">ОТПРАВИТЬ ПРОГНОЗ</button>
+
+      <div class="desk-bottle" id="desk-bottle" title="Кораблик в бутылке">
+        <svg viewBox="0 0 120 62" shape-rendering="crispEdges">
+          <rect x="6" y="22" width="88" height="30" fill="#bfefff" stroke="#000000" stroke-width="4"/>
+          <rect x="94" y="28" width="18" height="18" fill="#AB5236" stroke="#000000" stroke-width="3"/>
+          <rect y="46" width="120" height="7" fill="#000000" opacity=".35"/>
+          <path d="M28,46 L74,46 L66,54 L36,54 Z" fill="#5F574F"/>
+          <rect x="48" y="22" width="4" height="24" fill="#000000"/>
+          <path d="M52,24 L68,44 L52,44 Z" fill="#FFF1E8"/>
+          <path d="M48,28 L36,44 L48,44 Z" fill="#FF77A8"/>
+        </svg>
+              </div>
+
+            <div class="desk-compass" id="desk-compass" title="Компас Матвея">
+        <svg viewBox="0 0 60 60" shape-rendering="crispEdges"><circle cx="30" cy="30" r="24" fill="#FFA300" stroke="#000" stroke-width="5"/><circle cx="30" cy="30" r="17" fill="#FFF1E8"/><path d="M30,16 L36,30 L30,27 L24,30 Z" fill="#FF004D"/><rect x="27" y="27" width="6" height="6" fill="#000"/></svg>
+      </div>
+      <div class="desk-keys" id="desk-keys" title="Ключи от маяка">
+        <svg viewBox="0 0 80 40" shape-rendering="crispEdges"><circle cx="16" cy="14" r="9" fill="none" stroke="#FFEC27" stroke-width="5"/><rect x="22" y="11" width="34" height="6" fill="#FFEC27"/><rect x="48" y="17" width="6" height="10" fill="#FFEC27"/><rect x="60" y="17" width="6" height="14" fill="#FFEC27"/></svg>
+      </div>
+
+      <div class="desk-blank" id="desk-blank" title="Бланк утренних наблюдений">
+        <svg viewBox="0 0 100 84" shape-rendering="crispEdges">
+          <rect x="14" y="6" width="72" height="72" fill="#FFF1E8" stroke="#000000" stroke-width="4"/>
+          <rect x="14" y="6" width="72" height="14" fill="#FFA300"/>
+          <g fill="#5F574F"><rect x="22" y="30" width="56" height="4"/><rect x="22" y="40" width="56" height="4"/><rect x="22" y="50" width="42" height="4"/><rect x="22" y="60" width="56" height="4"/></g>
+          <circle cx="72" cy="64" r="9" fill="none" stroke="#FF004D" stroke-width="3"/>
+        </svg>
+        <div class="desk-obj-label">БЛАНК НАБЛЮДЕНИЙ</div>
+      </div>
+
+      <div class="desk-barometer" id="desk-barometer" title="Барометр"><div class="measure-pop"></div>
+        <svg viewBox="0 0 100 104" shape-rendering="crispEdges">
+          <rect x="34" y="96" width="32" height="8" fill="#000000"/>
+          <rect x="26" y="88" width="48" height="10" fill="#AB5236"/>
+          <circle cx="50" cy="50" r="40" fill="#FFA300" stroke="#000000" stroke-width="5"/>
+          <circle cx="50" cy="50" r="31" fill="#FFF1E8"/>
+          <g stroke="#000000" stroke-width="2">
+            <line x1="50" y1="22" x2="50" y2="29"/><line x1="28" y1="34" x2="33" y2="39"/><line x1="72" y1="34" x2="67" y2="39"/>
+            <line x1="22" y1="52" x2="29" y2="52"/><line x1="78" y1="52" x2="71" y2="52"/><line x1="30" y1="70" x2="35" y2="65"/><line x1="70" y1="70" x2="65" y2="65"/>
+          </g>
+          <g id="baro-needle">
+            <line x1="50" y1="52" x2="50" y2="28" stroke="#FF004D" stroke-width="4"/>
+            <rect x="46" y="48" width="8" height="8" fill="#000000"/>
+          </g>
+          <text x="50" y="72" text-anchor="middle" font-size="9" fill="#5F574F" font-family="monospace">мм рт.</text>
+        </svg>
+        
+      </div>
+
+      <div class="desk-computer" id="desk-computer" title="Компьютер дежурного">
+        <div class="pc-monitor">
+          <div class="pc-screen" id="pc-lines">ДЕНЬ 1 / 7<br>&gt; ожидание данных...</div>
+        </div>
+        <div class="pc-stand"></div>
+        <div class="pc-keyboard"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="desk-obj-label">КОМПЬЮТЕР</div>
+      </div>
+
+      
+            <div class="desk-hygro" id="desk-hygro" title="Гигрометр"><div class="measure-pop"></div>
+        <svg viewBox="0 0 100 104" shape-rendering="crispEdges">
+          <rect x="36" y="2" width="28" height="9" fill="#AB5236" stroke="#000000" stroke-width="3"/>
+          <rect x="41" y="11" width="18" height="26" fill="#C2C3C7" stroke="#000000" stroke-width="3"/>
+          <circle cx="50" cy="68" r="26" fill="#FFF1E8" stroke="#000000" stroke-width="4"/>
+          <clipPath id="flaskClip"><circle cx="50" cy="66" r="22"/></clipPath>
+          <rect id="hygro-liquid" x="28" y="62" width="44" height="28" fill="#29ADFF" clip-path="url(#flaskClip)"/>
+          <g fill="#FFF1E8" clip-path="url(#flaskClip)"><rect x="42" y="72" width="5" height="5"/><rect x="56" y="80" width="4" height="4"/><rect x="50" y="66" width="4" height="4"/></g>
+          <rect x="30" y="46" width="8" height="5" fill="#C2C3C7"/>
+          <rect x="28" y="96" width="44" height="8" fill="#000000"/>
+        </svg>
+        
+      </div>
+
+      <div class="desk-wind" id="desk-wind" title="Анемометр и флюгер"><div class="measure-pop"></div>
+        <svg viewBox="0 0 100 104" shape-rendering="crispEdges">
+          <g id="wind-vane">
+            <line x1="32" y1="12" x2="68" y2="12" stroke="#000000" stroke-width="4"/>
+            <path d="M68,12 L56,6 L56,18 Z" fill="#FF004D"/>
+            <rect x="24" y="8" width="10" height="8" fill="#FFA300"/>
+          </g>
+          <rect x="47" y="12" width="6" height="52" fill="#000000"/>
+          <g id="wind-cups">
+            <line x1="26" y1="34" x2="74" y2="34" stroke="#000000" stroke-width="4"/>
+            <line x1="50" y1="34" x2="50" y2="34" stroke="#000000" stroke-width="4"/>
+            <circle cx="24" cy="34" r="8" fill="#FFA300" stroke="#000000" stroke-width="3"/>
+            <circle cx="76" cy="34" r="8" fill="#FFA300" stroke="#000000" stroke-width="3"/>
+            <circle cx="50" cy="34" r="6" fill="#FFF1E8" stroke="#000000" stroke-width="3"/>
+          </g>
+          <rect x="47" y="40" width="6" height="28" fill="#000000"/>
+          <rect x="24" y="68" width="52" height="28" fill="#5F574F" stroke="#000000" stroke-width="4"/>
+          <rect x="31" y="75" width="38" height="14" fill="#03140a"/>
+        </svg>
+        
+      </div>
+
+            <div class="desk-book" id="desk-book" title="Тетрадь Матвея">
+        <svg viewBox="0 0 140 84" shape-rendering="crispEdges">
+          <rect x="8" y="14" width="124" height="62" fill="#FF004D" stroke="#000000" stroke-width="4"/>
+          <rect x="14" y="10" width="54" height="58" fill="#FFF1E8"/>
+          <rect x="72" y="10" width="54" height="58" fill="#FFCCAA"/>
+          <rect x="66" y="10" width="8" height="58" fill="#000000"/>
+          <g fill="#5F574F"><rect x="20" y="20" width="40" height="4"/><rect x="20" y="29" width="40" height="4"/><rect x="20" y="38" width="32" height="4"/><rect x="20" y="47" width="40" height="4"/><rect x="80" y="20" width="40" height="4"/><rect x="80" y="29" width="32" height="4"/><rect x="80" y="38" width="40" height="4"/><rect x="80" y="47" width="28" height="4"/></g>
+          <rect x="62" y="68" width="10" height="16" fill="#FFA300" stroke="#000000" stroke-width="2"/>
+        </svg>
+        <div class="desk-obj-label">ТЕТРАДЬ МАТВЕЯ</div>
+      </div>
+
+      
+
+      
+
+      <div class="notebook" id="notebook">
+        <h2>Тетрадь Матвея</h2>
+        <div class="nb-sub">записи открываются по ходу недели</div>
+        <div id="nb-pages"></div>
+        <div style="text-align:center; margin-top:14px;"><button class="btn nb-close" id="nb-close">Закрыть книгу</button></div>
+      </div>
+
+      <div class="overlay-center" id="resolve-overlay" style="display:none;">
+        <div class="glass result-card">
+          <h2 id="res-title">Вечер. Что было на самом деле</h2>
+          <p id="res-weather" style="font-size:15px; line-height:1.55;"></p>
+          <div id="res-vignettes"></div>
+          <div id="res-forecast" style="margin-top:10px;"></div>
+          <div style="text-align:center; margin-top:14px;">
+            <div id="res-trust" style="margin-bottom:12px;"></div>
+            <button class="btn" id="btn-next">Следующий день →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="overlay-center" id="invoice-overlay" style="display:none;">
+      <div class="glass result-card invoice-card">
+        <h2>Накладная смены</h2>
+        <div class="inv-line">Вознаграждение за прогноз: <b class="delta-good" id="inv-reward">+0 коинов</b></div>
+        <div class="inv-line">Баланс: <b id="inv-coins">0 коинов</b> · Топливо в баке: <b id="inv-fuel">0</b> / 120</div>
+        <div class="inv-fuelbar"><div class="inv-fuelfill" id="inv-fuel-fill"></div></div>
+        <h3 class="inv-h">Заправка на следующий день</h3>
+        <p class="inv-note">Топливо — это время смены: пока идёт день, бак пустеет. Кончится топливо — маяк гаснет и игра заканчивается. Цена: 1 коин = 1 единица.</p>
+        <div class="inv-btns">
+          <button class="btn ghost" data-fuelbuy="20">+20 топлива</button>
+          <button class="btn ghost" data-fuelbuy="50">+50 топлива</button>
+          <button class="btn ghost" data-fuelbuy="max">Заправить полный бак</button>
+        </div>
+        <h3 class="inv-h">Починка приборов</h3>
+        <p class="inv-note">Приборы изнашиваются каждый день, быстрее — если ими пользоваться. Сломанный прибор молчит, пока его не починишь.</p>
+        <div id="repairs-list"></div>
+        <div style="text-align:center; margin-top:16px;">
+          <button class="btn" id="btn-invoice-next">К следующему дню →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass dock">
+      <div class="slgroup">
+        <label>[RN] Вероятность осадков: <span class="prob-out" id="out-rain">50%</span></label>
+        <input type="range" id="sl-rain" min="0" max="100" step="10" value="50">
+        <div class="prob-hint" id="hint-rain"></div>
+      </div>
+      <div class="slgroup">
+        <label>[WD] Вероятность шквала (≥20 м/с): <span class="prob-out" id="out-wind">30%</span></label>
+        <input type="range" id="sl-wind" min="0" max="100" step="10" value="30">
+        <div class="prob-hint" id="hint-wind"></div>
+      </div>
+      
+    </div>
+  </div>
+
+  <div class="pc-overlay obs-overlay" id="obs-overlay">
+    <div class="obs-window">
+      <div class="pc-window-bar obs-bar"><span>УТРЕННИЕ НАБЛЮДЕНИЯ</span><button class="pc-x" id="btn-obs-close" title="Закрыть">X</button></div>
+      <div class="glass obs-card">
+        <h2>[BR] Утренние наблюдения</h2>
+        <ul class="obs-list" id="obs-list"></ul>
+      </div>
+      <div style="text-align:center; padding:0 16px 16px;"><button class="btn obs-done" id="btn-obs-done">Закрыть бланк</button></div>
+    </div>
+  </div>
+  <div class="pc-overlay" id="pc-overlay">
+    <div class="pc-big">
+      <div class="pc-big-screen">
+        <div class="pc-window">
+          <div class="pc-window-bar"><span>СООБЩЕНИЕ СМЕНЫ</span><button class="pc-x" id="btn-pc-close" title="Закрыть">X</button></div>
+          <div class="glass story-card">
+        <h2 id="day-title">День 1</h2>
+        <p id="day-story"></p>
+        <div class="day-event" id="day-event"></div>
+      </div>
+          <div class="pc-tasks-head">ЗАДАНИЯ ЖИТЕЛЕЙ <span id="tasks-count"></span></div>
+          <div class="dec-col" id="dec-col"></div>
+        </div>
+      </div>
+      <div class="pc-big-stand"><span class="pc-led"></span>МАЯК-ТЕРМИНАЛ</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== ФИНАЛ ==================== -->
+<div class="screen" id="scr-end">
+  <div class="skybg">
+    <div class="sky sk-clear" id="end-sky">
+      <div class="stars"></div><div class="sunmoon"></div><div class="beam"></div><div class="rain"></div>
+      <div class="cloud" style="top:14%; width:110px; animation-duration:85s;"></div>
+    </div>
+    <div class="sea"><svg viewBox="0 0 1200 160" preserveAspectRatio="none">
+      <path class="wave1" d="M0,80 Q75,62 150,80 T300,80 T450,80 T600,80 T750,80 T900,80 T1050,80 T1200,80 L1200,160 L0,160 Z" fill="#29ADFF"/>
+      <path class="wave2" d="M0,110 Q75,95 150,110 T300,110 T450,110 T600,110 T750,110 T900,110 T1050,110 T1200,110 L1200,160 L0,160 Z" fill="#1D2B53"/>
+    </svg></div>
+    <div class="end-wrap">
+      <div class="glass end-card">
+        <h2>Неделя окончена</h2>
+        <p id="end-text" style="line-height:1.6; font-size:15px;"></p>
+        <div style="display:flex; align-items:center; gap:16px; margin:14px 0;">
+          <div class="gauge" id="end-gauge" style="width:74px; height:74px;"><div class="gauge-hole" style="width:54px; height:54px; font-size:18px;" id="end-trust">0</div></div>
+          <div>
+            <div style="font-size:13px; color:var(--ink-soft);">Итоговое доверие города</div>
+            <div style="font-size:13px; color:var(--ink-soft);" id="end-diff-label"></div>
+          </div>
+        </div>
+        <h3 style="margin-top:6px;">Ваша калибровка</h3>
+        <div id="end-calib"></div>
+        <p class="muted" style="margin-top:8px; font-size:12.5px; color:var(--ink-soft);">Идеал: говоришь «70%» — дождь приходит в ~7 случаях из 10. Метеоролог не гадает, он честно измеряет неопределённость.</p>
+        <div id="records-end" style="margin-top:10px;"></div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:16px;">
+          <button class="btn" id="btn-restart">Играть снова</button>
+          <button class="btn ghost" id="btn-share">[CPY] Скопировать код результата</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="glass-dark toast" id="toast"></div>
+
+<!-- обучение -->
+<div class="tut-dim" id="tut-dim"></div>
+<div class="glass tut-tip" id="tut-tip">
+  <h3 id="tut-h"></h3>
+  <p id="tut-p"></p>
+  <div class="tut-btns">
+    <button class="btn ghost" id="tut-skip">Пропустить</button>
+    <button class="btn ghost" id="tut-prev" style="display:none;">← Назад</button>
+    <button class="btn" id="tut-next">Далее →</button>
+  </div>
+</div>
+
+<script src="game.js"></script>
+</body>
+</html>
